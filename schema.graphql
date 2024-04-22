@@ -1,0 +1,55 @@
+type Reward @entity {
+  id: ID!
+
+  createdTimestamp: BigInt!
+
+  createdBlock: BigInt!
+
+  amount: BigInt!
+
+  account: Account!
+}
+
+type Pool @entity {
+  " Smart contract address of the pool "
+  id: ID!
+
+  " Creation timestamp "
+  createdTimestamp: BigInt!
+
+  " Creation block number "
+  createdBlock: BigInt!
+
+  " All positions in this market "
+  positions: [Position!]! @derivedFrom(field: "pool")
+}
+
+type Account @entity {
+  " { Account address } "
+  id: ID!
+
+  " All positions that belong to this account "
+  positions: [Position!]! @derivedFrom(field: "owner")
+
+  rewards: [Reward!]! @derivedFrom(field: "account")
+}
+
+type Position @entity {
+  "NonfungiblePositionManager tokenId"
+  id: ID!
+
+  " Creation timestamp "
+  createdTimestamp: BigInt!
+
+  " Creation block number "
+  createdBlock: BigInt!
+
+  " Account that owns this position "
+  owner: Account! @index
+
+  " The liquidity pool in which this position was opened "
+  pool: Pool! @index
+
+  " Whether this position is staked in a reward program"
+  isStaked: Boolean @index
+}
