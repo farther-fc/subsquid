@@ -36,7 +36,6 @@ export const processor = new EvmBatchProcessor()
   .setRpcEndpoint({
     // Set the URL via .env for local runs or via secrets when deploying to Subsquid Cloud
     // https://docs.subsquid.io/deploy-squid/env-variables/
-    // url: assertNotNull(process.env.RPC_ENDPOINT, "RPC_ENDPOINT is not set"),
     url: assertNotNull(process.env.RPC_BASE_HTTP, "RPC_BASE_HTTP is not set"),
     // More RPC connection options at https://docs.subsquid.io/evm-indexing/configuration/initialization/#set-data-source
     rateLimit: 20,
@@ -84,9 +83,14 @@ export const processor = new EvmBatchProcessor()
   })
   .addLog({
     address: [contractAddresses.UNISWAP_V3_STAKER],
-    topic0: [UniswapV3Staker.events.RewardClaimed.topic],
+    topic0: [UniswapV3Staker.events.DepositTransferred.topic],
     transaction: true,
   })
+  // .addLog({
+  //   address: [contractAddresses.UNISWAP_V3_STAKER],
+  //   topic0: [UniswapV3Staker.events.RewardClaimed.topic],
+  //   transaction: true,
+  // })
   // .addLog({
   //   address: [contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL],
   //   topic0: [Pool.events.Initialize.topic],

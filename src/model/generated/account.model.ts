@@ -1,6 +1,5 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, OneToMany as OneToMany_} from "@subsquid/typeorm-store"
 import {Position} from "./position.model"
-import {Reward} from "./reward.model"
 
 @Entity_()
 export class Account {
@@ -19,7 +18,4 @@ export class Account {
      */
     @OneToMany_(() => Position, e => e.owner)
     positions!: Position[]
-
-    @OneToMany_(() => Reward, e => e.account)
-    rewards!: Reward[]
 }

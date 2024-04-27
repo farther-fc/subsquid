@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "rm -rf lib && tsc",
-    "update": "npx npm-check-updates --filter /subsquid/ --upgrade && npm i -f"
+    "update": "npx npm-check-updates --filter /subsquid/ --upgrade && npm i -f",
+    "migrate": "sqd typegen && sqd codegen && sqd migration:generate && sqd migration:apply"
   },
   "dependencies": {
     "@subsquid/evm-processor": "^1.18.0",

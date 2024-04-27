@@ -1,15 +1,3 @@
-type Reward @entity {
-  id: ID!
-
-  createdTimestamp: BigInt!
-
-  createdBlock: BigInt!
-
-  amount: BigInt!
-
-  account: Account!
-}
-
 type Pool @entity {
   " Smart contract address of the pool "
   id: ID!
@@ -30,8 +18,6 @@ type Account @entity {
 
   " All positions that belong to this account "
   positions: [Position!]! @derivedFrom(field: "owner")
-
-  rewards: [Reward!]! @derivedFrom(field: "account")
 }
 
 type Position @entity {
@@ -44,7 +30,7 @@ type Position @entity {
   " Creation block number "
   createdBlock: BigInt!
 
-  " Account that owns this position "
+  " Account that owns this position (staker contract is ignored, so its always the account that held it most recently other than the staker)"
   owner: Account! @index
 
   " The liquidity pool in which this position was opened "
@@ -52,4 +38,7 @@ type Position @entity {
 
   " Whether this position is staked in a reward program"
   isStaked: Boolean @index
+
+  " Whether this position is currently being held by the staker contract. This doesn't necessarily mean that the position is staked."
+  isHeldByStaker: Boolean @index
 }

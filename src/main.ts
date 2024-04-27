@@ -1,13 +1,11 @@
 import { BlockData, assertNotNull } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
-import * as pool from "./abi/Pool";
 import * as factory from "./abi/Factory";
 import * as nonFungiblePositionManager from "./abi/NonFungiblePositionManager";
 import * as uniswapV3Staker from "./abi/UniswapV3Staker";
-import { Block, Context, contractAddresses, processor } from "./processor";
-import { Account, Pool, Position, Reward } from "./model";
+import { Context, contractAddresses, processor } from "./processor";
+import { Account, Pool, Position } from "./model";
 import { computeAddress } from "./utils";
-// import { computeAddress } from "./utils";
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
   const pools: Map<string, Pool> = new Map();
@@ -66,7 +64,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
 
           const { from } = assertNotNull(
             log.transaction,
-            "Missing transaction",
+            "Missing transaction"
           );
 
           const pool =
@@ -75,7 +73,11 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
               id: poolAddress.toLowerCase(),
             }));
 
-          const owner = await getAccount({ ctx, address: from, accounts });
+          const owner = await getAccount({
+            ctx,
+            address: from.toLowerCase(),
+            accounts,
+          });
 
           position = new Position({
             id: event.tokenId.toString(),
@@ -103,10 +105,23 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             continue;
           }
 
-          const tx = assertNotNull(log.transaction, "Missing transaction");
-          const recipient = assertNotNull(tx.to, "Missing transfer recipient");
+          const to = assertNotNull(event.to, "Missing recipient");
+          const from = assertNotNull(event.from, "Missing sender");
 
-          const owner = await getAccount({ ctx, address: recipient, accounts });
+          if (from.toLowerCase() === contractAddresses.UNISWAP_V3_STAKER) {
+            position.isHeldByStaker = false;
+          }
+
+          if (to.toLowerCase() === contractAddresses.UNISWAP_V3_STAKER) {
+            // Ignore transfers to the staker contract
+            continue;
+          }
+
+          const owner = await getAccount({
+            ctx,
+            address: to.toLowerCase(),
+            accounts,
+          });
 
           position.owner = owner;
 
@@ -127,6 +142,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
           if (!position) continue;
 
           position.isStaked = true;
+          position.isHeldByStaker = true;
 
           console.log("tokenId staked", position.id);
 
@@ -184,9 +200,11 @@ async function getAccount({
   address: string;
   accounts: Map<string, Account>;
 }) {
-  let account = await ctx.store.findOne(Account, { where: { id: address } });
+  let account = await ctx.store.findOne(Account, {
+    where: { id: address.toLowerCase() },
+  });
   if (!account) {
-    account = new Account({ id: address });
+    account = new Account({ id: address.toLowerCase() });
     accounts.set(address.toLowerCase(), account);
   }
   return account;
@@ -204,7 +222,7 @@ async function getPoolAddress({
   const nftPosContract = new nonFungiblePositionManager.Contract(
     ctx,
     block.header,
-    contractAddresses.NFT_POSITION_MANAGER,
+    contractAddresses.NFT_POSITION_MANAGER
   );
 
   const positionData = await nftPosContract.positions(tokenId);

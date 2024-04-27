@@ -27,7 +27,7 @@ export class Position {
     createdBlock!: bigint
 
     /**
-     *  Account that owns this position 
+     *  Account that owns this position (staker contract is ignored, so its always the account that held it most recently other than the staker)
      */
     @Index_()
     @ManyToOne_(() => Account, {nullable: true})
@@ -46,4 +46,11 @@ export class Position {
     @Index_()
     @BooleanColumn_({nullable: true})
     isStaked!: boolean | undefined | null
+
+    /**
+     *  Whether this position is currently being held by the staker contract. This doesn't necessarily mean that the position is staked.
+     */
+    @Index_()
+    @BooleanColumn_({nullable: true})
+    isHeldByStaker!: boolean | undefined | null
 }
