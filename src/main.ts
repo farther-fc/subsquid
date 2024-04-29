@@ -3,8 +3,9 @@ import { TypeormDatabase } from "@subsquid/typeorm-store";
 import * as factory from "./abi/Factory";
 import * as nonFungiblePositionManager from "./abi/NonFungiblePositionManager";
 import * as uniswapV3Staker from "./abi/UniswapV3Staker";
-import { Context, contractAddresses, processor } from "./processor";
+import { contractAddresses } from "./constants";
 import { Account, Pool, Position } from "./model";
+import { Context, processor } from "./processor";
 import { computeAddress } from "./utils";
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {

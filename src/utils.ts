@@ -1,10 +1,10 @@
 import {
-  solidityPackedKeccak256,
+  AbiCoder,
   getAddress,
   keccak256,
-  AbiCoder,
+  solidityPackedKeccak256,
 } from "ethers";
-import { contractAddresses } from "./processor";
+import { contractAddresses } from "./constants";
 
 const abiCoder = AbiCoder.defaultAbiCoder();
 
@@ -27,19 +27,14 @@ export function computeAddress(key: PoolKey): string {
   const innerKeyHash = keccak256(
     abiCoder.encode(
       ["address", "address", "uint24"],
-      [key.token0, key.token1, key.fee],
-    ),
+      [key.token0, key.token1, key.fee]
+    )
   );
 
   // Create pseudo-random salt and encode packed
   const encodedPacked = solidityPackedKeccak256(
     ["bytes1", "address", "bytes32", "bytes32"],
-    [
-      "0xff",
-      contractAddresses.UNIV3_FACTORY,
-      innerKeyHash,
-      POOL_INIT_CODE_HASH,
-    ],
+    ["0xff", contractAddresses.UNIV3_FACTORY, innerKeyHash, POOL_INIT_CODE_HASH]
   );
 
   // Compute the address by taking the last 20 bytes of the hash of the encoded data

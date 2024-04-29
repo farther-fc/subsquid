@@ -1,4 +1,3 @@
-import { assertNotNull } from "@subsquid/util-internal";
 import {
   BlockHeader,
   DataHandlerContext,
@@ -8,21 +7,12 @@ import {
   Transaction as _Transaction,
 } from "@subsquid/evm-processor";
 import { Store } from "@subsquid/typeorm-store";
+import { assertNotNull } from "@subsquid/util-internal";
 // import * as Pool from "./abi/Pool";
 import * as Factory from "./abi/Factory";
 import * as NonFungiblePositionManager from "./abi/NonFungiblePositionManager";
 import * as UniswapV3Staker from "./abi/UniswapV3Staker";
-
-export const contractAddresses = {
-  FARTHER: "0x65Fb1f9Cb54fF76eBCb40b7F9aa4297B49C3Cf1a".toLowerCase(),
-  WETH: "0x4200000000000000000000000000000000000006".toLowerCase(),
-  UNISWAP_V3_STAKER: "0x42be4d6527829fefa1493e1fb9f3676d2425c3c1".toLowerCase(),
-  UNIV3_FACTORY: "0x33128a8fC17869897dcE68Ed026d694621f6FDfD".toLowerCase(),
-  NFT_POSITION_MANAGER:
-    "0x03a520b32c04bf3beef7beb72e919cf822ed34f1".toLowerCase(),
-  UNIV3_FARTHER_ETH_30BPS_POOL:
-    "0x0E59d9301fAc8D2d33Cd56212dFBE20B0d178C5d".toLowerCase(),
-} as const;
+import { contractAddresses } from "./constants";
 
 const START_BLOCK = 13142142;
 
