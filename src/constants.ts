@@ -5,7 +5,7 @@ if (
   throw new Error("ENVIRONMENT must be set to 'production' or 'staging'");
 }
 
-const ENVIRONMENT = process.env.ENVIRONMENT;
+export const ENVIRONMENT = process.env.ENVIRONMENT;
 
 const baseContractAddresses = {
   production: {
