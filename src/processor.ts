@@ -12,9 +12,9 @@ import { assertNotNull } from "@subsquid/util-internal";
 import * as Factory from "./abi/Factory";
 import * as NonFungiblePositionManager from "./abi/NonFungiblePositionManager";
 import * as UniswapV3Staker from "./abi/UniswapV3Staker";
-import { contractAddresses } from "./constants";
+import { ENVIRONMENT, contractAddresses } from "./constants";
 
-const START_BLOCK = 13142142;
+const START_BLOCK = ENVIRONMENT === "staging" ? 13817650 : 13832035;
 
 export const processor = new EvmBatchProcessor()
   // Lookup archive by the network name in Subsquid registry

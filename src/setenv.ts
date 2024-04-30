@@ -1,6 +1,6 @@
 import fs from "fs";
 import YAML from "yaml";
-import { ENVIRONMENT } from "./src/constants";
+import { ENVIRONMENT } from "./constants";
 
 const file = fs.readFileSync("./squid.yaml", "utf8");
 

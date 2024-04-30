@@ -1,5 +1,5 @@
 manifestVersion: subsquid.io/v0.1
-name: farther-staging
+name: farther-production
 version: 1
 description: Farther-related Uniswap data
 build:

@@ -6,9 +6,11 @@
     "build": "rm -rf lib && tsc",
     "update": "npx npm-check-updates --filter /subsquid/ --upgrade && npm i -f",
     "migrate": "sqd typegen && sqd codegen && sqd migration:generate && sqd migration:apply",
-    "deploy": "pnpm setenv && sqd deploy .",
-    "deploy:reset": "pnpm setenv && sqd deploy . --hard-reset",
-    "setenv": "ts-node -r dotenv/config ./setenv.ts"
+    "deploy": "sqd deploy .",
+    "deploy:reset": "sqd deploy . --hard-reset",
+    "setenv": "ts-node ./src/setenv.ts",
+    "deploy:staging": "ENVIRONMENT=staging pnpm setenv && pnpm run deploy",
+    "deploy:prod": "ENVIRONMENT=production pnpm setenv && pnpm run deploy"
   },
   "dependencies": {
     "@subsquid/evm-processor": "^1.18.0",
