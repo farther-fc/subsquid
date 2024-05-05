@@ -6,7 +6,7 @@ build:
   package_manager: pnpm
 deploy:
   env:
-    ENVIRONMENT: staging
+    ENVIRONMENT: production
   secrets:
     - RPC_ENDPOINT
   addons:

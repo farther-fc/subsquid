@@ -16,6 +16,6 @@ export const contractAddresses = {
     "0x03a520b32c04bf3beef7beb72e919cf822ed34f1".toLowerCase(),
   UNIV3_FARTHER_ETH_30BPS_POOL:
     ENVIRONMENT === "staging"
-      ? "0xC17Ff8380c09685B2A671E8076c98E5F2eC56832"
-      : "0x306e600e33A9c86B91EeA5A14c8C73F8de62AC84",
+      ? "0xC17Ff8380c09685B2A671E8076c98E5F2eC56832".toLowerCase()
+      : "0x306e600e33A9c86B91EeA5A14c8C73F8de62AC84".toLowerCase(),
 } as const;

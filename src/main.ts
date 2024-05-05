@@ -22,6 +22,8 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
         case factory.events.PoolCreated.topic: {
           const event = factory.events.PoolCreated.decode(log);
 
+          console.log("PoolCreated", event.pool.toLowerCase());
+
           if (
             event.pool.toLowerCase() !==
             contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL
