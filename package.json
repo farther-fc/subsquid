@@ -10,7 +10,8 @@
     "deploy:reset": "sqd deploy . --hard-reset",
     "setenv": "ts-node ./src/setenv.ts",
     "deploy:staging": "ENVIRONMENT=staging pnpm setenv && pnpm run deploy",
-    "deploy:prod": "ENVIRONMENT=production pnpm setenv && pnpm run deploy"
+    "deploy:prod": "ENVIRONMENT=production pnpm setenv && pnpm run deploy",
+    "sqd:local:prod": "sqd down && ENVIRONMENT=production sqd up && ENVIRONMENT=production sqd process"
   },
   "dependencies": {
     "@subsquid/evm-processor": "^1.18.0",
@@ -24,6 +25,7 @@
     "pg": "^8.11.5",
     "ts-node": "^10.9.2",
     "typeorm": "^0.3.20",
+    "viem": "^2.10.1",
     "yaml": "^2.4.2"
   },
   "devDependencies": {
