@@ -22,8 +22,6 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
         case factory.events.PoolCreated.topic: {
           const event = factory.events.PoolCreated.decode(log);
 
-          console.log("PoolCreated", event.pool.toLowerCase());
-
           if (
             event.pool.toLowerCase() !==
             contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL
@@ -37,7 +35,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             createdBlock: BigInt(block.header.height),
           });
 
-          console.log("created pool", pool.id);
+          console.log("Created FARTHER pool", pool.id);
 
           pools.set(event.pool.toLowerCase(), pool);
           break;
@@ -168,6 +166,23 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
           console.log("tokenId unstaked", position.id);
 
           positions.set(event.tokenId.toString(), position);
+          break;
+        }
+        case uniswapV3Staker.events.RewardClaimed.topic: {
+          const event = uniswapV3Staker.events.RewardClaimed.decode(log);
+
+          const { to, reward } = event;
+
+          const account = await getAccount({
+            ctx,
+            address: to.toLowerCase(),
+            accounts,
+          });
+
+          account.rewardsClaimed =
+            (account.rewardsClaimed || BigInt(0)) + reward;
+
+          accounts.set(account.id, account);
           break;
         }
       }

@@ -38,7 +38,6 @@ export const processor = new EvmBatchProcessor()
     },
     transaction: {
       hash: true,
-      // input: true,
     },
   })
   .addLog({
@@ -76,36 +75,11 @@ export const processor = new EvmBatchProcessor()
     topic0: [UniswapV3Staker.events.DepositTransferred.topic],
     transaction: true,
   })
-  // .addLog({
-  //   address: [contractAddresses.UNISWAP_V3_STAKER],
-  //   topic0: [UniswapV3Staker.events.RewardClaimed.topic],
-  //   transaction: true,
-  // })
-  // .addLog({
-  //   address: [contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL],
-  //   topic0: [Pool.events.Initialize.topic],
-  //   transaction: true,
-  // })
-  // .addLog({
-  //   address: [contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL],
-  //   topic0: [Pool.events.Collect.topic],
-  //   transaction: true,
-  // })
-  // .addLog({
-  //   address: [contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL],
-  //   topic0: [Pool.events.Swap.topic],
-  //   transaction: true,
-  // })
-  // .addLog({
-  //   address: [contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL],
-  //   topic0: [Pool.events.Mint.topic],
-  //   transaction: true,
-  // })
-  // .addLog({
-  //   address: [contractAddresses.UNIV3_FARTHER_ETH_30BPS_POOL],
-  //   topic0: [Pool.events.Burn.topic],
-  //   transaction: true,
-  // })
+  .addLog({
+    address: [contractAddresses.UNISWAP_V3_STAKER],
+    topic0: [UniswapV3Staker.events.RewardClaimed.topic],
+    transaction: true,
+  })
   .setBlockRange({
     from: START_BLOCK,
   });

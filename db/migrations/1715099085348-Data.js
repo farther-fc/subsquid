@@ -1,8 +1,8 @@
-module.exports = class Data1714430345325 {
-    name = 'Data1714430345325'
+module.exports = class Data1715099085348 {
+    name = 'Data1715099085348'
 
     async up(db) {
-        await db.query(`CREATE TABLE "account" ("id" character varying NOT NULL, CONSTRAINT "PK_54115ee388cdb6d86bb4bf5b2ea" PRIMARY KEY ("id"))`)
+        await db.query(`CREATE TABLE "account" ("id" character varying NOT NULL, "rewards_claimed" numeric, CONSTRAINT "PK_54115ee388cdb6d86bb4bf5b2ea" PRIMARY KEY ("id"))`)
         await db.query(`CREATE TABLE "position" ("id" character varying NOT NULL, "created_timestamp" numeric NOT NULL, "created_block" numeric NOT NULL, "is_staked" boolean, "is_held_by_staker" boolean, "owner_id" character varying, "pool_id" character varying, CONSTRAINT "PK_b7f483581562b4dc62ae1a5b7e2" PRIMARY KEY ("id"))`)
         await db.query(`CREATE INDEX "IDX_8134902075edc5e996ec0d7172" ON "position" ("owner_id") `)
         await db.query(`CREATE INDEX "IDX_128820371117dcf3915dc01ad3" ON "position" ("pool_id") `)
