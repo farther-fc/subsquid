@@ -1,5 +1,6 @@
 import { BlockData, assertNotNull } from "@subsquid/evm-processor";
 import { TypeormDatabase } from "@subsquid/typeorm-store";
+import { decodeFunctionData } from "viem";
 import * as factory from "./abi/Factory";
 import * as nonFungiblePositionManager from "./abi/NonFungiblePositionManager";
 import * as uniswapV3Staker from "./abi/UniswapV3Staker";
@@ -172,6 +173,43 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
           const event = uniswapV3Staker.events.RewardClaimed.decode(log);
 
           const { to, reward } = event;
+
+          const input = log.transaction?.input;
+
+          if (!input) {
+            throw new Error(
+              "Missing transaction input for RewardClaimed event"
+            );
+          }
+
+          const { functionName, args } = decodeFunctionData({
+            abi: uniswapV3Staker.abi.fragments,
+            data: input as `0x${string}`,
+          });
+
+          // Ignore any calls that aren't claimReward
+          if (functionName !== "claimReward") {
+            continue;
+          }
+
+          if (!args) {
+            throw new Error("Failed to decode function data");
+          }
+
+          const [rewardTokenAddress] = args;
+
+          if (typeof rewardTokenAddress !== "string") {
+            throw new Error(
+              `rewardTokenAddress is not a string: ${rewardTokenAddress}`
+            );
+          }
+
+          // We only care about FARTHER claims
+          if (rewardTokenAddress.toLowerCase() !== contractAddresses.FARTHER) {
+            continue;
+          }
+
+          console.log("Reward claimed", reward.toString());
 
           const account = await getAccount({
             ctx,

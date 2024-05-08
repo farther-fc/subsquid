@@ -38,6 +38,7 @@ export const processor = new EvmBatchProcessor()
     },
     transaction: {
       hash: true,
+      input: true,
     },
   })
   .addLog({
@@ -50,11 +51,6 @@ export const processor = new EvmBatchProcessor()
     topic0: [NonFungiblePositionManager.events.IncreaseLiquidity.topic],
     transaction: true,
   })
-  // .addLog({
-  //   address: [contractAddresses.NFT_POSITION_MANAGER],
-  //   topic0: [NonFungiblePositionManager.events.DecreaseLiquidity.topic],
-  //   transaction: true,
-  // })
   .addLog({
     address: [contractAddresses.NFT_POSITION_MANAGER],
     topic0: [NonFungiblePositionManager.events.Transfer.topic],
@@ -68,11 +64,6 @@ export const processor = new EvmBatchProcessor()
   .addLog({
     address: [contractAddresses.UNISWAP_V3_STAKER],
     topic0: [UniswapV3Staker.events.TokenUnstaked.topic],
-    transaction: true,
-  })
-  .addLog({
-    address: [contractAddresses.UNISWAP_V3_STAKER],
-    topic0: [UniswapV3Staker.events.DepositTransferred.topic],
     transaction: true,
   })
   .addLog({
