@@ -11,7 +11,8 @@
     "setenv": "ts-node ./src/setenv.ts",
     "deploy:staging": "ENVIRONMENT=staging pnpm setenv && pnpm run deploy",
     "deploy:prod": "ENVIRONMENT=production pnpm setenv && pnpm run deploy",
-    "sqd:local:prod": "sqd down && ENVIRONMENT=production sqd up && ENVIRONMENT=production sqd process"
+    "sqd:local:prod": "sqd down && ENVIRONMENT=production sqd up && ENVIRONMENT=production sqd process",
+    "sqd:local:staging": "sqd down && ENVIRONMENT=staging sqd up && ENVIRONMENT=staging sqd process"
   },
   "dependencies": {
     "@subsquid/evm-processor": "^1.18.0",
