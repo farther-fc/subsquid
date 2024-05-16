@@ -1,12 +1,12 @@
 manifestVersion: subsquid.io/v0.1
-name: farther-production
+name: farther-staging
 version: 3
 description: Farther-related Uniswap data
 build:
   package_manager: pnpm
 deploy:
   env:
-    ENVIRONMENT: production
+    ENVIRONMENT: staging
   secrets:
     - RPC_ENDPOINT
   addons:
