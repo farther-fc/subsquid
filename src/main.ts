@@ -51,8 +51,12 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
               where: { id: event.tokenId.toString() },
             }));
 
-          // Only interested in new positions
-          if (position) continue;
+          if (position) {
+            position.liquidity = event.liquidity + position.liquidity;
+            position.amount0 = event.amount0;
+            position.amount1 = event.amount1;
+            continue;
+          }
 
           const poolAddress = await getPoolAddress({
             ctx,
@@ -85,12 +89,37 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true }), async (ctx) => {
             id: event.tokenId.toString(),
             createdTimestamp: BigInt(block.header.timestamp),
             createdBlock: BigInt(block.header.height),
+            liquidity: event.liquidity,
+            amount0: event.amount0,
+            amount1: event.amount1,
             owner,
             pool,
           });
 
           console.log("created position", position.id);
 
+          positions.set(event.tokenId.toString(), position);
+          break;
+        }
+        case nonFungiblePositionManager.events.DecreaseLiquidity.topic: {
+          const event =
+            nonFungiblePositionManager.events.DecreaseLiquidity.decode(log);
+
+          const position =
+            positions.get(event.tokenId.toString()) ||
+            (await ctx.store.findOne(Position, {
+              where: { id: event.tokenId.toString() },
+            }));
+
+          if (!position) {
+            continue;
+          }
+
+          position.liquidity = event.liquidity - position.liquidity;
+          position.amount0 = event.amount0;
+          position.amount1 = event.amount1;
+
+          console.log("Decreased liquidity", position.id);
           positions.set(event.tokenId.toString(), position);
           break;
         }

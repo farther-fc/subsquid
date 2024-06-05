@@ -53,6 +53,11 @@ export const processor = new EvmBatchProcessor()
   })
   .addLog({
     address: [contractAddresses.NFT_POSITION_MANAGER],
+    topic0: [NonFungiblePositionManager.events.DecreaseLiquidity.topic],
+    transaction: true,
+  })
+  .addLog({
+    address: [contractAddresses.NFT_POSITION_MANAGER],
     topic0: [NonFungiblePositionManager.events.Transfer.topic],
     transaction: true,
   })

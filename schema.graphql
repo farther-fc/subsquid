@@ -39,6 +39,15 @@ type Position @entity {
   " The liquidity pool in which this position was opened "
   pool: Pool! @index
 
+  " The amount of liquidity tokens in this position "
+  liquidity: BigInt!
+
+  " The amount of token0 in this position "
+  amount0: BigInt!
+
+  " The amount of token1 in this position "
+  amount1: BigInt!
+
   " Whether this position is staked in a reward program"
   isStaked: Boolean @index
 
