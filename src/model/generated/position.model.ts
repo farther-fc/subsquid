@@ -41,6 +41,24 @@ export class Position {
     pool!: Pool
 
     /**
+     *  The amount of liquidity tokens in this position 
+     */
+    @BigIntColumn_({nullable: false})
+    liquidity!: bigint
+
+    /**
+     *  The amount of token0 in this position 
+     */
+    @BigIntColumn_({nullable: false})
+    amount0!: bigint
+
+    /**
+     *  The amount of token1 in this position 
+     */
+    @BigIntColumn_({nullable: false})
+    amount1!: bigint
+
+    /**
      *  Whether this position is staked in a reward program
      */
     @Index_()
