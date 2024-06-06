@@ -1,6 +1,6 @@
 manifestVersion: subsquid.io/v0.1
 name: farther-production
-version: 4
+version: 5
 description: Farther-related Uniswap data
 build:
   package_manager: pnpm

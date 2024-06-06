@@ -285,9 +285,11 @@ async function getAccount({
   address: string;
   accounts: Map<string, Account>;
 }) {
-  let account = await ctx.store.findOne(Account, {
-    where: { id: address.toLowerCase() },
-  });
+  let account =
+    accounts.get(address.toLowerCase()) ||
+    (await ctx.store.findOne(Account, {
+      where: { id: address.toLowerCase() },
+    }));
   if (!account) {
     account = new Account({ id: address.toLowerCase() });
     accounts.set(address.toLowerCase(), account);
