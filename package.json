@@ -9,9 +9,9 @@
     "migrate": "sqd typegen && sqd codegen && sqd migration:generate && sqd migration:apply",
     "deploy": "sqd deploy .",
     "deploy:reset": "sqd deploy . --hard-reset",
-    "setenv": "ts-node ./src/setenv.ts",
-    "deploy:staging": "ENVIRONMENT=staging pnpm setenv && pnpm run deploy",
-    "deploy:prod": "ENVIRONMENT=production pnpm setenv && pnpm run deploy",
+    "predeploy": "ts-node ./src/predeploy.ts",
+    "deploy:staging": "ENVIRONMENT=staging pnpm predeploy && pnpm run deploy",
+    "deploy:prod": "ENVIRONMENT=production pnpm predeploy && pnpm run deploy",
     "sqd:local:prod": "sqd down && ENVIRONMENT=production sqd up && ENVIRONMENT=production sqd process",
     "sqd:local:staging": "sqd down && ENVIRONMENT=staging sqd up && ENVIRONMENT=staging sqd process"
   },
